@@ -396,13 +396,21 @@ void countdownMenu() {
   tft.print("Exposing camera \nfor: ");
   tft.setTextSize(2);
   tft.setTextColor(AQUA);
-  for (int i=(shutter_time-motor_time); i>=0; i--) {
-    tft.setTextColor(AQUA,BLACK);
-    tft.setCursor(50,105);
-    tft.print(i);
-    tft.print("s  ");
-    //delay(1000);
-  }
+  //shutter_time should always be more then motor time
+  //int i=(shutter_time-motor_time)
+  // for (int i=(shutter_time); i>=0; i--) {
+  //   tft.setTextColor(AQUA,BLACK);
+  //   tft.setCursor(50,105);
+  //   tft.print(i);
+  //   tft.print("s  ");
+  //   delay(1000);
+  // }
+  
+  tft.setTextColor(AQUA,BLACK);
+  tft.setCursor(50,105);
+  tft.print(shutter_time);
+  tft.print("s  ");
+  delay(1500);
   tft.setTextColor(WHITE);
   tft.setTextSize(1);
   updateScreen();

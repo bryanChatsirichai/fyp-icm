@@ -71,9 +71,52 @@ void goDist(int type, const char title[], int pos_desired, uint16_t color, float
   //delay(3000);//for sound to complete
   play_sound_1();
   printMoveSteps(type, title, color, 0); 
-  //nikonTime();
-  moveMotor(type, pos_desired, motor_time);
-  
+  //moveMotor(type, pos_desired, motor_time);
+
+  //move motor depending on exposure_option_set
+  switch (exposure_option_set){
+    //pre
+    case 0:{
+      float remainder_time = shutter_time - motor_time;
+      if(camera_shutter_open == 0){
+        open_Shutter();
+        camera_shutter_open = 1;
+      }
+      moveMotor(type, pos_desired, motor_time);
+      delay(remainder_time);
+      break;
+    }
+    //split
+    case 1:{
+      float remainder_time = shutter_time - motor_time;
+      float front_remainder_time = remainder_time / 2;
+      float back_remainder_time = remainder_time / 2;
+      if(camera_shutter_open == 0){
+        open_Shutter();
+        camera_shutter_open = 1;
+      }
+      delay(front_remainder_time);
+      moveMotor(type, pos_desired, motor_time);
+      delay(back_remainder_time);
+      break;
+    }
+    //after
+    case 2 :{
+      float remainder_time = shutter_time - motor_time;
+      if(camera_shutter_open == 0){
+        open_Shutter();
+        camera_shutter_open = 1;
+      }
+      delay(remainder_time);
+      moveMotor(type, pos_desired, motor_time);
+      break;
+    }
+    default:{
+      break;
+    }
+    
+  }
+
   //zoom / focus current postion after moving to desired position
   if (type) { // ZOOM
     zoom_current = pos_desired;
@@ -82,10 +125,14 @@ void goDist(int type, const char title[], int pos_desired, uint16_t color, float
   }
   
   if(lastSequence){
-    nikonTime();
     //end sound  
     //buzz();
     play_sound_2();
+    if(camera_shutter_open == 1){
+        close_Shutter();
+        camera_shutter_open = 0;
+      }
+    //close shutter(); //nikonTime(1000);
     updateScreen(100);
   }
 
@@ -121,22 +168,72 @@ void goMultiDist(const char title[], int zoom_desired, int focus_desired, uint16
   //delay(5000);
   play_sound_1();
   printMoveSteps(3, title, color, 0);
-  //nikonTime();
   //Serial.println("Both moving to position");
-  moveMultiMotor(zoom_desired, focus_desired, motor_time);
+  //moveMultiMotor(zoom_desired, focus_desired, motor_time);
+
+  //move motor depending on exposure_option_set
+  switch (exposure_option_set){
+    //pre
+    case 0:{
+      float remainder_time = shutter_time - motor_time;
+      if(camera_shutter_open == 0){
+        open_Shutter();
+        camera_shutter_open = 1;
+      }
+      moveMultiMotor(zoom_desired, focus_desired, motor_time);
+      delay(remainder_time);
+      break;
+    }
+    //split
+    case 1:{
+      float remainder_time = shutter_time - motor_time;
+      float front_remainder_time = remainder_time / 2;
+      float back_remainder_time = remainder_time / 2;
+      if(camera_shutter_open == 0){
+        open_Shutter();
+        camera_shutter_open = 1;
+      }
+      delay(front_remainder_time);
+      moveMultiMotor(zoom_desired, focus_desired, motor_time);
+      delay(back_remainder_time);
+      break;
+    }
+    //after
+    case 2 :{
+      float remainder_time = shutter_time - motor_time;
+      if(camera_shutter_open == 0){
+        open_Shutter();
+        camera_shutter_open = 1;
+      }
+      delay(remainder_time);
+      moveMultiMotor(zoom_desired, focus_desired, motor_time);
+      break;
+    }
+    default:{
+      break;
+    }
+    
+  }
+
 
   //zoom / focus current postion after moving to desired position
   zoom_current = zoom_desired;
   focus_current = focus_desired;
 
   if(lastSequence){
-    nikonTime();
+    //nikonTime(1000);
     //end sound  
     //buzz();
     //play_stop_sound();
     play_sound_2();
+    if(camera_shutter_open == 1){
+        close_Shutter();
+        camera_shutter_open = 0;
+      }
+    //close shutter(); //nikonTime(1000);
     updateScreen(100);
   }
+
 
 
   // returns to original spot
@@ -144,7 +241,7 @@ void goMultiDist(const char title[], int zoom_desired, int focus_desired, uint16
     Serial.println("Both going back to position");
     printMoveSteps(3, title, color, 1);
     //moveMultiMotor(zoom_current, focus_current, motor_time);
-    moveMultiMotor(prev_zoom, prev_focus,0);
+    //moveMultiMotor(prev_zoom, prev_focus,0);
 
     //see this got any differentce .....
     zoom_current = prev_zoom;

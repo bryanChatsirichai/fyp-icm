@@ -298,6 +298,7 @@ int orientation = 0;
 int shutter_time = 0;
 int motor_time = 0;   
 int exposure_option_set = 0; //default
+int camera_shutter_open = 0; //default 0 is not open
 
 // Global Variables
 int option_selected = 0;
@@ -369,7 +370,9 @@ void moveMultiMotor(int zoom_value, int focus_value, float motor_time = motor_ti
 void goMultiDist(const char title[], int zoom_desired, int focus_desired, uint16_t color=WHITE, float motor_time = motor_time, bool goBack=true,bool lastSequence=true);
 void goToHomeMenu();
 void buzz(int delay_ms=500, int freq=1000);
-void nikonTime();
+void nikonTime(int exposure_time);
+void open_Shutter();
+void close_Shutter();
 //////////////////////////////
 
 /* Buzzer Function */
@@ -380,17 +383,49 @@ void nikonTime();
 // }
 
 /*nikonTime*/
-void nikonTime() { // Controls the shutter of a Nikon camera
+void nikonTime(int exposure_time) { // Controls the shutter of a Nikon camera
   digitalWrite(FOCUS_CAMERA, HIGH);  
   digitalWrite(SHUTTER_CAMERA, HIGH);
-  delay(20);
+  delay(150);
   digitalWrite(FOCUS_CAMERA, LOW); // close shutter (fully pressed)
   digitalWrite(SHUTTER_CAMERA, LOW); // close shutter (fully pressed)
-  delay(20);
+  delay(150);
   digitalWrite(FOCUS_CAMERA, HIGH);  
   digitalWrite(SHUTTER_CAMERA, HIGH);
-  delay(2000);
+  delay(exposure_time);//exposure time
+  digitalWrite(FOCUS_CAMERA, HIGH);  
+  digitalWrite(SHUTTER_CAMERA, HIGH);
+  delay(150);
+  digitalWrite(FOCUS_CAMERA, LOW); // close shutter (fully pressed)
+  digitalWrite(SHUTTER_CAMERA, LOW); // close shutter (fully pressed)
+  delay(150);
+  digitalWrite(FOCUS_CAMERA, HIGH);  
+  digitalWrite(SHUTTER_CAMERA, HIGH);
 }
+void open_Shutter() { // Controls the shutter of a Nikon camera
+  Serial.println("Open");
+  digitalWrite(FOCUS_CAMERA, HIGH);  
+  digitalWrite(SHUTTER_CAMERA, HIGH);
+  delay(150);
+  digitalWrite(FOCUS_CAMERA, LOW);
+  digitalWrite(SHUTTER_CAMERA, LOW);
+  delay(150);
+  digitalWrite(FOCUS_CAMERA, HIGH);  
+  digitalWrite(SHUTTER_CAMERA, HIGH);
+}
+void close_Shutter() { // Controls the shutter of a Nikon camera
+  Serial.println("Close");
+  digitalWrite(FOCUS_CAMERA, HIGH);  
+  digitalWrite(SHUTTER_CAMERA, HIGH);
+  delay(150);
+  digitalWrite(FOCUS_CAMERA, LOW);
+  digitalWrite(SHUTTER_CAMERA, LOW);
+  delay(150);
+  digitalWrite(FOCUS_CAMERA, HIGH);  
+  digitalWrite(SHUTTER_CAMERA, HIGH);
+}
+
+
 //////////////////////////////
 void setup() {
   //for print statement
