@@ -437,9 +437,11 @@ void setup() {
   pinMode(BUSY_PIN,INPUT_PULLUP);
 
   //camera shutter and focus for capturing pictures 
-  pinMode(SHUTTER_CAMERA, OUTPUT);
   pinMode(FOCUS_CAMERA, OUTPUT);
-  
+  pinMode(SHUTTER_CAMERA, OUTPUT);
+  digitalWrite(FOCUS_CAMERA, HIGH);  
+  digitalWrite(SHUTTER_CAMERA, HIGH);
+  delay(150);
  
 
   // **** Buzzer ****
@@ -481,6 +483,7 @@ void setup() {
   orientation = EEPROM.read(4);
   shutter_time = EEPROM.read(5);
   motor_time = EEPROM.read(6);
+  exposure_option_set = EEPROM.read(7);
   // focus_current = 0;
   // zoom_current = 0;
 
@@ -652,18 +655,24 @@ void loop() {
                     case 0:{
                       exposure_option_set = 0;
                       exposure_option_screen = -1;
+                      EEPROM.write(7, exposure_option_set);
+                      EEPROM.commit();
                       break;
                     }
                     //split
                     case 1:{
                       exposure_option_set = 1;
                       exposure_option_screen = -1;
+                      EEPROM.write(7, exposure_option_set);
+                      EEPROM.commit();
                       break;
                     }
                     //after
                     case 2:{
                       exposure_option_set = 2;
                       exposure_option_screen = -1;
+                      EEPROM.write(7, exposure_option_set);
+                      EEPROM.commit();
                       break;
                     }
                     //go back
