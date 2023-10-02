@@ -44,7 +44,7 @@
 #define LBYTE(X) (X & 0xFF) 
 #define RX 5
 #define TX 4
-#define BUSY_PIN 27
+//#define BUSY_PIN 27
 
 /* Buzzer Signal Pin */
 //#define BUZZER 22
@@ -120,8 +120,8 @@ const char cs_3[] PROGMEM = "Back Page";
 
 
 const char pm_name[] PROGMEM = "|- Positioning Setting -|";
-const char pm_0[] PROGMEM = "Zoom at the back";
-const char pm_1[] PROGMEM = "Zoom at the front";
+const char pm_0[] PROGMEM = "Zoom at the Front";
+const char pm_1[] PROGMEM = "Zoom at the Back";
 
 const char shutter_menu[] PROGMEM = "|- Shutter Time(s) -|";
 const char motor_time_menu[] PROGMEM = "Motor Move Time(s)";
@@ -294,7 +294,7 @@ int zoom_range = 0;
 int focus_range = 0;    
 int zoom_current = 0;     
 int focus_current = 0;   
-int orientation = 0;    
+int orientation = 1;    
 int shutter_time = 0;
 int motor_time = 0;   
 int exposure_option_set = 0; //default
@@ -434,7 +434,7 @@ void setup() {
 
   //for jp8900-16pin
   SoftwareSerial.begin(9600);
-  pinMode(BUSY_PIN,INPUT_PULLUP);
+  //pinMode(BUSY_PIN,INPUT_PULLUP);
 
   //camera shutter and focus for capturing pictures 
   pinMode(FOCUS_CAMERA, OUTPUT);
@@ -501,18 +501,22 @@ void loop() {
             // Zoom-Focus position screen
             case 0: {
               switch (camera_positioning_screen) {
-                // zoom at the back
+                // zoom at the Front
                 case 0:{
-                  Serial.println("zoom at the back");
+                  Serial.println("zoom at the Front");
                   orientation = 0;
+                  EEPROM.write(4,orientation);
+                  EEPROM.commit();
                   camera_positioning_screen = -1;
                   //delay(100);
                   break;
                 }
-                // zoom at the front
+                // zoom at the Back
                 case 1:{
-                  Serial.println("zoom at the front");
+                  Serial.println("zoom at the Back");
                   orientation = 1;
+                  EEPROM.write(4,orientation);
+                  EEPROM.commit();
                   camera_positioning_screen = -1;
                   //delay(100);
                   break;                
