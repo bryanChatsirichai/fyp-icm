@@ -24,10 +24,10 @@
 #define TFT_SCLK 10 // Clock out
 
 /* Motor Pins */
-#define rear_DIR    0
-#define rear_STEP   1
-#define front_DIR   6
-#define front_STEP  7
+#define rear_DIR    6
+#define rear_STEP   7
+#define front_DIR   0
+#define front_STEP  1
 
 //Display Joystick 
 #define UP_BUTTON 2
@@ -120,8 +120,8 @@ const char cs_3[] PROGMEM = "Back Page";
 
 
 const char pm_name[] PROGMEM = "|- Positioning Setting -|";
-const char pm_0[] PROGMEM = "Zoom at the Front";
-const char pm_1[] PROGMEM = "Zoom at the Back";
+const char pm_0[] PROGMEM = "Zoom at the Back";
+const char pm_1[] PROGMEM = "Zoom at the Front";
 
 const char shutter_menu[] PROGMEM = "|- Shutter Time(s) -|";
 const char motor_time_menu[] PROGMEM = "Motor Move Time(s)";
@@ -294,7 +294,7 @@ int zoom_range = 0;
 int focus_range = 0;    
 int zoom_current = 0;     
 int focus_current = 0;   
-int orientation = 1;    
+int orientation = 0;    
 int shutter_time = 0;
 int motor_time = 0;   
 int exposure_option_set = 0; //default
@@ -333,8 +333,8 @@ char buffer[50];
 // Object Declaration
 
 /* Motor Objects to be edited*/
-AccelStepper rear_motor(AccelStepper::DRIVER, rear_STEP, rear_DIR);
 AccelStepper front_motor(AccelStepper::DRIVER, front_STEP, front_DIR);
+AccelStepper rear_motor(AccelStepper::DRIVER, rear_STEP, rear_DIR);
 
 /*Control multiple steppers motor*/
 MultiStepper steppers;
@@ -501,9 +501,9 @@ void loop() {
             // Zoom-Focus position screen
             case 0: {
               switch (camera_positioning_screen) {
-                // zoom at the Front
+                // zoom at the back
                 case 0:{
-                  Serial.println("zoom at the Front");
+                  Serial.println("zoom at the back");
                   orientation = 0;
                   EEPROM.write(4,orientation);
                   EEPROM.commit();
@@ -511,9 +511,9 @@ void loop() {
                   //delay(100);
                   break;
                 }
-                // zoom at the Back
+                // zoom at the front
                 case 1:{
-                  Serial.println("zoom at the Back");
+                  Serial.println("zoom at the front");
                   orientation = 1;
                   EEPROM.write(4,orientation);
                   EEPROM.commit();

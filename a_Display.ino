@@ -79,12 +79,12 @@ int menu_with_header(int array_size,const char *menu_name ,const char *const str
         tft.setTextColor(AQUA);
         tft.print(F("Front Motor: "));
         tft.setTextColor(WHITE,BLACK);
-        tft.print(orientation ? "Focus " : "Zoom");
+        tft.print(orientation ? "Zoom " : "Focus");
         tft.print("    ");
         tft.setTextColor(AQUA);
         tft.print(F("Rear Motor: "));
         tft.setTextColor(WHITE,BLACK);
-        tft.print(orientation ? "Zoom" : "Focus ");
+        tft.print(orientation ? "Focus" : "Zoom ");
         break;
       }
 

@@ -56,7 +56,6 @@ int chooseDist(int type, int count, const char *const string_table[], bool goBac
 }
 
 void goDist(int type, const char title[], int pos_desired, uint16_t color, float motor_time, bool goBack, bool lastSequence) {
-  
   Serial.print("@goDist motor_time = ");
   Serial.println(motor_time);
   
@@ -149,7 +148,6 @@ void goDist(int type, const char title[], int pos_desired, uint16_t color, float
     updateScreen(100);
   }
 
-
   // returns to original spot
   //go back acceleration and speed could be faster
   if (goBack) {
@@ -166,7 +164,6 @@ void goDist(int type, const char title[], int pos_desired, uint16_t color, float
 }
 
 void goMultiDist(const char title[], int zoom_desired, int focus_desired, uint16_t color, float motor_time, bool goBack,bool lastSequence) {
-
   Serial.print("@goMultiDist motor_time = ");
   Serial.println(motor_time);
 
@@ -258,7 +255,7 @@ void goMultiDist(const char title[], int zoom_desired, int focus_desired, uint16
     Serial.println("Both going back to position");
     printMoveSteps(3, title, color, 1);
     //moveMultiMotor(zoom_current, focus_current, motor_time);
-    //moveMultiMotor(prev_zoom, prev_focus,0);
+    moveMultiMotor(prev_zoom, prev_focus,0);
 
     //see this got any differentce .....
     zoom_current = prev_zoom;

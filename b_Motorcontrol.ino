@@ -148,7 +148,7 @@ void moveMultiMotor(int zoom_value, int focus_value, float motor_time) {
   Serial.println(motor_time);
   long rear_position;
   long front_position;
-  long positions[2]; // 0: rear motor, 1: front_motor
+  long positions[2]; 
   
   
   if (zoom_value == -1) {
@@ -187,23 +187,6 @@ void moveMultiMotor(int zoom_value, int focus_value, float motor_time) {
   //adjust speed accordingly
   //camera movement base on motor time
   if (motor_time != 0) {
-    // float zoom_RPM = 0;
-    // float focus_RPM = 0;
-    // if(zoom_value != -1) {
-    //   zoom_RPM = calcAccel(zoom_steps, (float)motor_time);
-    // }
-    // if (focus_value != -1) {
-    //   focus_RPM = calcAccel(focus_steps, (float)motor_time);
-    // }
-    // rear_motor.setAcceleration(orientation ? focus_RPM : zoom_RPM);
-    // front_motor.setAcceleration(orientation ? zoom_RPM : focus_RPM);
-    // zoom_RPM = calcRPM(zoom_value, motor_time);
-    // focus_RPM = calcRPM(focus_value, motor_time);
-    // rear_motor.setSpeed(orientation ? focus_RPM : zoom_RPM);
-    // front_motor.setSpeed(orientation ? zoom_RPM : focus_RPM);
-    // rear_motor.setAcceleration(orientation ? focus_RPM : zoom_RPM);
-    // front_motor.setAcceleration(orientation ? zoom_RPM : focus_RPM);
-
     //try
     rear_motor.setSpeed(orientation ? (focus_steps_to_move / motor_time) : (zoom_steps_to_move / motor_time));
     rear_motor.setAcceleration(orientation ? (focus_steps_to_move / motor_time) : (zoom_steps_to_move / motor_time));
